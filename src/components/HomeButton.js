@@ -8,12 +8,17 @@ import {
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Theme } from '../constants/Theme';
+import { useNavigation } from '@react-navigation/native';
 
 const theme = Theme();
 
-export default function HomeButton({ crop, onPress }) {
+export default function HomeButton({ crop }) {
+  const navigation = useNavigation();
   return (
-    <TouchableOpacity style={styles.button} onPress={onPress}>
+    <TouchableOpacity
+      style={styles.button}
+      onPress={() => navigation.navigate('Crop Info', { crop })}
+    >
       <ImageBackground source={{ uri: crop.url }} style={styles.image}>
         <LinearGradient
           colors={['transparent', 'rgba(0,0,0,0.7)']}

@@ -13,19 +13,21 @@ const theme = Theme();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
+      <Stack.Navigator
+        initialRouteName="Home"
+        screenOptions={{ headerTintColor: theme.palette.primary }}
+      >
         <Stack.Screen
           name="Home"
           component={HomeScreen}
           options={{
             title: 'Popular Crops in Nigeria',
-            headerTintColor: theme.palette.primary,
           }}
         />
         <Stack.Screen
           name="Crop Info"
           component={CropInfoScreen}
-          options={{ title: 'Crop Information' }}
+          options={{ title: 'Crop Information', headerShown: false }}
         />
         <Stack.Screen
           name="Weather Forecast"
