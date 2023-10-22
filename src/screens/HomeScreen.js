@@ -7,6 +7,7 @@ import HomeButton from './../components/HomeButton';
 import { Theme } from '../constants/Theme';
 import cropsArray from '../constants/Crop';
 import Row from '../components/Row';
+import { getTemperature } from '../constants/getTempreature';
 
 const theme = Theme();
 
@@ -15,6 +16,7 @@ export default function HomeScreen() {
   const [searchQuery, setSearchQuery] = useState('');
   const [location, setLocation] = useState({ state: null, country: null });
   const [errorMsg, setErrorMsg] = useState(null);
+  const [temperature, setTemperature] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -27,8 +29,12 @@ export default function HomeScreen() {
 
       let currentLocation = await Location.getCurrentPositionAsync({});
       let gCode = await Location.reverseGeocodeAsync(currentLocation.coords);
+      const temp = await getTemperature({
+        lat: currentLocation.coords.latitude,
+        lon: currentLocation.coords.longitude,
+      });
       const geocode = gCode[0];
-      console.log(console.log(geocode));
+      setTemperature(temp);
 
       setLocation({
         state: geocode?.city,
@@ -61,7 +67,7 @@ export default function HomeScreen() {
               {location.state} State, {location.country}
             </Text>
           )}
-          <Text style={styles.title}>68°</Text>
+          {temperature && <Text style={styles.title}>{temperature}°</Text>}
         </Row>
       )}
       <TextInput
