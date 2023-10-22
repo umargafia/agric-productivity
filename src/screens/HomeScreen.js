@@ -1,25 +1,41 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Text,
-  StyleSheet,
-  Animated,
-  FlatList,
-  TextInput,
-  View,
-} from 'react-native';
+import { Text, StyleSheet, Animated, FlatList, TextInput } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import * as Location from 'expo-location';
 
 import HomeButton from './../components/HomeButton';
 import { Theme } from '../constants/Theme';
 import cropsArray from '../constants/Crop';
 import Row from '../components/Row';
-import { useNavigation } from '@react-navigation/native';
 
 const theme = Theme();
 
-export default function HomeScreen({ navigation }) {
+export default function HomeScreen() {
   const fadeAnim = React.useRef(new Animated.Value(100)).current;
   const [searchQuery, setSearchQuery] = useState('');
+  const [location, setLocation] = useState({ state: null, country: null });
+  const [errorMsg, setErrorMsg] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+        console.log(`can't find location`);
+        return;
+      }
+
+      let currentLocation = await Location.getCurrentPositionAsync({});
+      let gCode = await Location.reverseGeocodeAsync(currentLocation.coords);
+      const geocode = gCode[0];
+      console.log(console.log(geocode));
+
+      setLocation({
+        state: geocode?.city,
+        country: geocode.country,
+      });
+    })();
+  }, []);
 
   useEffect(() => {
     Animated.timing(fadeAnim, {
@@ -38,10 +54,16 @@ export default function HomeScreen({ navigation }) {
       colors={[theme.palette.primary, theme.palette.secondary]}
       style={styles.container}
     >
-      <Row style={styles.row}>
-        <Text style={styles.title}>Katsina State, Nigeria</Text>
-        <Text style={styles.title}>68°</Text>
-      </Row>
+      {location && (
+        <Row style={styles.row}>
+          {location.state && location.country && (
+            <Text style={styles.title}>
+              {location.state} State, {location.country}
+            </Text>
+          )}
+          <Text style={styles.title}>68°</Text>
+        </Row>
+      )}
       <TextInput
         style={styles.input}
         placeholder="Search"
