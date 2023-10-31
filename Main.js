@@ -11,6 +11,7 @@ import MyIcon from './src/components/MyIcon';
 import Search from './src/screens/Search';
 import Profile from './src/screens/Profile';
 import Auth from './src/screens/Auth';
+import EditPage from './src/screens/EditPage';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -84,7 +85,7 @@ export default function Main() {
         <Stack.Screen
           name="Crop Info"
           component={CropInfoScreen}
-          options={{ title: 'Crop Information', headerShown: false }}
+          options={{ title: 'Crop Information' }}
         />
 
         <Stack.Screen
@@ -92,6 +93,7 @@ export default function Main() {
           component={MarketPriceScreen}
           options={{ title: 'Market Price' }}
         />
+        <Stack.Screen name="Edit Page" component={EditPage} />
       </Stack.Navigator>
     </NavigationContainer>
   );

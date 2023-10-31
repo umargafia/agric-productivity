@@ -1,8 +1,11 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { StyleSheet, ScrollView } from 'react-native';
 import { Image } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import { useSelector } from 'react-redux';
 
 import { Theme } from '../constants/Theme';
 import Title from '../components/Title';
@@ -10,9 +13,31 @@ import MyCard from '../components/MyCard';
 import { CropsList } from '../constants/CropInfo';
 
 const theme = Theme();
-export default function CropInfoScreen({ route, navigation }) {
+export default function CropInfoScreen({ route }) {
+  const { user } = useSelector((state) => state.globalState);
+  //  {"email": "admin@gmail.com", "id": 2, "name": "Admin User", "password": "123456", "role": "admin"}
   const { crop } = route.params;
+  const navigation = useNavigation();
   const itemNumber = parseInt(crop.id) - 1;
+
+  navigation.setOptions({
+    title: crop.name,
+    headerRight: () => (
+      <HeaderButtons>
+        {user.role === 'admin' && (
+          <>
+            <Item
+              title="Edit"
+              iconName="pencil"
+              onPress={() => {
+                navigation.navigate('Edit Page', { crop });
+              }}
+            />
+          </>
+        )}
+      </HeaderButtons>
+    ),
+  });
 
   return (
     <LinearGradient
@@ -20,10 +45,10 @@ export default function CropInfoScreen({ route, navigation }) {
       style={styles.gradient}
     >
       <ScrollView style={styles.container}>
-        <StatusBar style="light" />
+        <StatusBar style="dark" />
         <Image source={{ uri: crop.url }} style={styles.image} />
 
-        <Title text={crop?.name} header color={theme.palette.white} />
+        {/* <Title text={crop?.name} header color={theme.palette.white} /> */}
         <ListItem
           CropsList={CropsList}
           header="Description"

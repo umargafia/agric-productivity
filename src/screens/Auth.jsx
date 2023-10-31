@@ -58,7 +58,7 @@ export default function Auth() {
       if (user) {
         setLoginData({ email: '', password: '' });
         dispatch(loginUser(user));
-        navigation.navigate('Tabs', { screen: 'Home' });
+        navigation.replace('Tabs', { screen: 'Home' });
       } else {
         // Display an error message for incorrect credentials.
         Alert.alert('Login Failed', 'Invalid email or password.');
@@ -84,7 +84,7 @@ export default function Auth() {
         users.push(newUser);
         setSignData({ email: '', password: '', name: '' });
         dispatch(loginUser(newUser));
-        navigation.navigate('Tabs', { screen: 'Home' });
+        navigation.replace('Tabs', { screen: 'Home' });
       }
     }
   };
