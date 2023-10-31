@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
+import axios from 'axios';
 
 import { Theme } from '../constants/Theme';
 import MyCard from '../components/MyCard';
@@ -44,7 +45,12 @@ export default function Auth() {
     setLogin((prev) => !prev);
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    const response = await axios.get('http://192.168.43.234:3000/users');
+    console.log(response.data);
+
+    return;
+
     if (isLogin) {
       // Login logic
       if (!loginData.email || !loginData.password) {
@@ -116,7 +122,7 @@ export default function Auth() {
             />
             <MyButton text="Login" onPress={handleSubmit} />
             <TouchableOpacity onPress={toggleSwitch}>
-              <Title text="Don't have an account? Signup" />
+              <Title text="Don't have an account? Signup" link />
             </TouchableOpacity>
           </>
         ) : (
@@ -141,7 +147,7 @@ export default function Auth() {
             />
             <MyButton text="Signup" onPress={handleSubmit} />
             <TouchableOpacity onPress={toggleSwitch}>
-              <Title text="Already have an account? Login" />
+              <Title text="Already have an account? Login" link />
             </TouchableOpacity>
           </>
         )}
