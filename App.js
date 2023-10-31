@@ -5,7 +5,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import HomeScreen from './src/screens/HomeScreen';
 import CropInfoScreen from './src/screens/CropInfoScreen';
-import WeatherForecastScreen from './src/screens/WeatherForecastScreen';
 import MarketPriceScreen from './src/screens/MarketPriceScreen';
 import { Theme } from './src/constants/Theme';
 import MyIcon from './src/components/MyIcon';

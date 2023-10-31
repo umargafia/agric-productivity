@@ -13,10 +13,14 @@ const theme = Theme();
 
 export default function HomeScreen() {
   const fadeAnim = React.useRef(new Animated.Value(100)).current;
-  const [searchQuery, setSearchQuery] = useState('');
   const [location, setLocation] = useState({ state: null, country: null });
   const [errorMsg, setErrorMsg] = useState(null);
   const [temperature, setTemperature] = useState(null);
+
+  const [searchQuery, setSearchQuery] = useState('');
+  const filteredCrops = cropsArray.filter((crop) =>
+    crop.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   useEffect(() => {
     (async () => {
@@ -51,10 +55,6 @@ export default function HomeScreen() {
     }).start();
   }, [fadeAnim]);
 
-  const filteredCrops = cropsArray.filter((crop) =>
-    crop.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
   return (
     <LinearGradient
       colors={[theme.palette.primary, theme.palette.secondary]}
@@ -72,13 +72,14 @@ export default function HomeScreen() {
           )}
         </Row>
       )}
-      <TextInput
-        style={styles.input}
-        placeholder="Search"
-        value={searchQuery}
-        onChangeText={(text) => setSearchQuery(text)}
-      />
-      <Animated.View style={{ transform: [{ translateY: fadeAnim }], flex: 1 }}>
+
+      <Animated.View
+        style={{
+          transform: [{ translateY: fadeAnim }],
+          flex: 1,
+          marginTop: 20,
+        }}
+      >
         <FlatList
           contentContainerStyle={styles.listContainer}
           data={filteredCrops}
