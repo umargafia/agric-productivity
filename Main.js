@@ -10,6 +10,7 @@ import { Theme } from './src/constants/Theme';
 import MyIcon from './src/components/MyIcon';
 import Search from './src/screens/Search';
 import Profile from './src/screens/Profile';
+import Auth from './src/screens/Auth';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -17,11 +18,17 @@ const theme = Theme();
 
 function MyTabs() {
   return (
-    <Tab.Navigator screenOptions={{ headerShown: false }}>
+    <Tab.Navigator
+      screenOptions={{
+        headerTintColor: theme.palette.primary,
+        tabBarActiveTintColor: theme.palette.primary,
+      }}
+    >
       <Tab.Screen
         name="Home"
         component={HomeScreen}
         options={{
+          title: 'Agric Productivity App',
           tabBarIcon: ({ color, size }) => (
             <MyIcon name="home" color={color} size={size} />
           ),
@@ -60,10 +67,17 @@ export default function Main() {
         }}
       >
         <Stack.Screen
+          name="Auth"
+          component={Auth}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
           name="Tabs"
           component={MyTabs}
           options={{
-            title: 'Agric Productivity App',
+            headerShown: false,
           }}
         />
 

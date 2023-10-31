@@ -1,57 +1,55 @@
+import { LinearGradient } from 'expo-linear-gradient';
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, Button } from 'react-native';
 
+import { Theme } from '../constants/Theme';
+import MyCard from '../components/MyCard';
+import Title from '../components/Title';
+import MyButton from '../components/Mybutton';
+import { useNavigation } from '@react-navigation/native';
+
+const theme = Theme();
 const ProfileScreen = () => {
   const [name, setName] = useState('John Doe');
   const [email, setEmail] = useState('johndoe@example.com');
-  const [bio, setBio] = useState('I love farming and agriculture.');
+  const navigation = useNavigation();
 
-  const handleSaveProfile = () => {
-    // Handle saving the updated profile data to your backend or storage.
-    // You can make API calls here to update the user's profile.
-    // This is just a simple example; you should replace it with actual data handling logic.
-    console.log('Profile data saved:', name, email, bio);
-  };
-
+  function handleLogout() {
+    navigation.navigate('Auth');
+  }
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>My Profile</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Name"
-        value={name}
-        onChangeText={setName}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Bio"
-        value={bio}
-        onChangeText={setBio}
-        multiline
-        numberOfLines={4}
-      />
-      <Button title="Save Profile" onPress={handleSaveProfile} />
+    <View>
+      <LinearGradient
+        colors={[theme.palette.primary, theme.palette.secondary]}
+        style={styles.container}
+      >
+        <Text style={styles.title}>My Profile</Text>
+        <MyCard style={styles.card}>
+          <Title text={name} position={'start'} />
+        </MyCard>
+        <MyCard style={styles.card}>
+          <Title text={email} position={'start'} />
+        </MyCard>
+        <MyButton
+          text="Logout"
+          background={theme.palette.red}
+          onPress={handleLogout}
+        />
+      </LinearGradient>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     padding: 16,
-    backgroundColor: '#fff',
+    minHeight: theme.window.windowHeight,
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
+    color: theme.palette.black,
   },
   input: {
     height: 40,
@@ -59,6 +57,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     padding: 10,
+    marginBottom: 10,
+  },
+  card: {
     marginBottom: 10,
   },
 });
