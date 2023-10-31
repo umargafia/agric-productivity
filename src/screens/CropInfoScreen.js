@@ -24,7 +24,7 @@ export default function CropInfoScreen({ route }) {
     title: crop.name,
     headerRight: () => (
       <HeaderButtons>
-        {user.role === 'admin' && (
+        {user?.role === 'admin' && (
           <>
             <Item
               title="Edit"

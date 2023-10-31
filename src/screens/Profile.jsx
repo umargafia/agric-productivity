@@ -28,7 +28,7 @@ const ProfileScreen = () => {
         colors={[theme.palette.primary, theme.palette.secondary]}
         style={styles.container}
       >
-        {user.name ? (
+        {user?.name ? (
           <>
             <Text style={styles.title}>My Profile</Text>
             <MyCard style={styles.card}>

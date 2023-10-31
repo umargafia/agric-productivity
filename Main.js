@@ -2,6 +2,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useSelector, useDispatch } from 'react-redux';
 
 import HomeScreen from './src/screens/HomeScreen';
 import CropInfoScreen from './src/screens/CropInfoScreen';
@@ -12,12 +13,15 @@ import Search from './src/screens/Search';
 import Profile from './src/screens/Profile';
 import Auth from './src/screens/Auth';
 import EditPage from './src/screens/EditPage';
+import AddScreen from './src/screens/AddScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 const theme = Theme();
 
 function MyTabs() {
+  const { user } = useSelector((state) => state.globalState);
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -35,6 +39,18 @@ function MyTabs() {
           ),
         }}
       />
+      {user?.role === 'admin' && (
+        <Tab.Screen
+          name="Add"
+          component={AddScreen}
+          options={{
+            title: 'Add Crop',
+            tabBarIcon: ({ color, size }) => (
+              <MyIcon name="add" color={color} size={size} />
+            ),
+          }}
+        />
+      )}
       <Tab.Screen
         name="Search"
         component={Search}
