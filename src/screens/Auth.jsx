@@ -2,12 +2,14 @@ import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import React, { useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
 
 import { Theme } from '../constants/Theme';
 import MyCard from '../components/MyCard';
 import MyInput from '../components/MyInput';
 import MyButton from '../components/Mybutton';
 import Title from '../components/Title';
+import { loginUser } from '../store/globalState';
 
 const users = [
   {
@@ -31,7 +33,12 @@ export default function Auth() {
   const [isLogin, setLogin] = useState(true);
   const navigation = useNavigation();
   const [loginData, setLoginData] = useState({ email: '', password: '' });
-  const [signData, setSignData] = useState({ email: '', password: '' });
+  const [signData, setSignData] = useState({
+    email: '',
+    password: '',
+    name: '',
+  });
+  const dispatch = useDispatch();
 
   function toggleSwitch() {
     setLogin((prev) => !prev);
@@ -49,8 +56,9 @@ export default function Auth() {
         (u) => u.email === loginData.email && u.password === loginData.password
       );
       if (user) {
-        // Successful login, you can handle user authentication here.
-        Alert.alert('Logged In', `Logged in as: ${user.name}`);
+        setLoginData({ email: '', password: '' });
+        dispatch(loginUser(user));
+        navigation.navigate('Tabs', { screen: 'Home' });
       } else {
         // Display an error message for incorrect credentials.
         Alert.alert('Login Failed', 'Invalid email or password.');
@@ -74,11 +82,9 @@ export default function Auth() {
           role: 'user', // Set the default role for new users.
         };
         users.push(newUser);
-        // Successful signup, you can handle user registration here.
-        Alert.alert(
-          'Signup Successful',
-          `New user registered: ${newUser.name}`
-        );
+        setSignData({ email: '', password: '', name: '' });
+        dispatch(loginUser(newUser));
+        navigation.navigate('Tabs', { screen: 'Home' });
       }
     }
   };
@@ -122,7 +128,7 @@ export default function Auth() {
             />
             <MyInput
               text="Email"
-              icon="email"
+              icon="mail"
               onChangeText={(text) => setSignData({ ...signData, email: text })}
             />
             <MyInput

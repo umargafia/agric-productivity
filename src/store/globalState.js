@@ -17,6 +17,5 @@ const globalSlice = createSlice({
   },
 });
 
-export const { toggleModal, toggleDataModel, loginUser, logout } =
-  globalSlice.actions;
+export const { loginUser, logout } = globalSlice.actions;
 export default globalSlice.reducer;
