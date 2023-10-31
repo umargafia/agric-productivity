@@ -62,12 +62,14 @@ export default function HomeScreen() {
     >
       {location && (
         <Row style={styles.row}>
-          {location.state && location.country && (
+          {location.state && (
             <Text style={styles.title}>
-              {location.state} State, {location.country}
+              {location.state}, {location.country}
             </Text>
           )}
-          {temperature && <Text style={styles.title}>{temperature}°</Text>}
+          {temperature && location.state && (
+            <Text style={styles.title}>{temperature}°</Text>
+          )}
         </Row>
       )}
       <TextInput
@@ -98,7 +100,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginBottom: 20,
+    marginBottom: 10,
     color: '#FFFFFF',
     marginTop: 10,
   },
@@ -108,6 +110,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     backgroundColor: theme.palette.white,
     borderRadius: 10,
+    marginTop: 10,
     ...theme.shadow,
   },
   listContainer: {},
