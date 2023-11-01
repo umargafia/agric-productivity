@@ -11,6 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 import MyButton from '../components/Mybutton';
 import { CropsList } from '../constants/CropInfo';
 import { Theme } from '../constants/Theme';
+import { UpdateCrop } from '../store/api';
 
 const theme = Theme();
 export default function EditPage({ route }) {
@@ -23,18 +24,8 @@ export default function EditPage({ route }) {
     title: crop.name,
   });
 
-  const saveChanges = () => {
-    // Find the index of the edited crop in the CropsList array
-    const editedIndex = itemNumber;
-
-    // Create a copy of the CropsList array
-    const updatedCropsList = [...CropsList];
-
-    // Update the item at the editedIndex with the new values
-    updatedCropsList[editedIndex] = editedCrop;
-
-    // Update the state with the modified array (assuming you have a state variable and setter for CropsList)
-    // setCropsList(updatedCropsList); // Uncomment this line if you have a state variable and setter for CropsList
+  const saveChanges = async () => {
+    await UpdateCrop({ data: editedCrop, id: crop._id });
 
     // Navigate back to the CropInfoScreen with the edited crop data
     navigation.navigate('Crop Info', { crop: editedCrop });
@@ -45,70 +36,70 @@ export default function EditPage({ route }) {
       <ScrollView>
         <MyInput
           label="Description"
-          value={CropsList[itemNumber]?.description}
+          value={crop?.description}
           onChangeText={(text) =>
             setEditedCrop({ ...editedCrop, description: text })
           }
         />
         <MyInput
           label="Planting and Sowing Guidelines"
-          value={CropsList[itemNumber].plantingAndSowingGuidelines}
+          value={crop.plantingAndSowingGuidelines}
           onChangeText={(text) =>
             setEditedCrop({ ...editedCrop, plantingAndSowingGuidelines: text })
           }
         />
         <MyInput
           label="Soil Preparation"
-          value={CropsList[itemNumber].soilPreparation}
+          value={crop.soilPreparation}
           onChangeText={(text) =>
             setEditedCrop({ ...editedCrop, soilPreparation: text })
           }
         />
         <MyInput
           label="Growing Conditions"
-          value={CropsList[itemNumber].growingConditions}
+          value={crop.growingConditions}
           onChangeText={(text) =>
             setEditedCrop({ ...editedCrop, growingConditions: text })
           }
         />
         <MyInput
           label="Watering and Irrigation"
-          value={CropsList[itemNumber].wateringAndIrrigation}
+          value={crop.wateringAndIrrigation}
           onChangeText={(text) =>
             setEditedCrop({ ...editedCrop, wateringAndIrrigation: text })
           }
         />
         <MyInput
           label="Fertilization"
-          value={CropsList[itemNumber].fertilization}
+          value={crop.fertilization}
           onChangeText={(text) =>
             setEditedCrop({ ...editedCrop, fertilization: text })
           }
         />
         <MyInput
           label="Pest and Disease Management"
-          value={CropsList[itemNumber].pestAndDiseaseManagement}
+          value={crop.pestAndDiseaseManagement}
           onChangeText={(text) =>
             setEditedCrop({ ...editedCrop, pestAndDiseaseManagement: text })
           }
         />
         <MyInput
           label="Harvesting"
-          value={CropsList[itemNumber].harvesting}
+          value={crop.harvesting}
           onChangeText={(text) =>
             setEditedCrop({ ...editedCrop, harvesting: text })
           }
         />
         <MyInput
           label="Marketing"
-          value={CropsList[itemNumber].marketing}
+          value={crop.marketing}
           onChangeText={(text) =>
             setEditedCrop({ ...editedCrop, marketing: text })
           }
         />
         <MyInput
           label="Best Practices"
-          value={CropsList[itemNumber].bestPractices}
+          value={crop.bestPractices}
           onChangeText={(text) =>
             setEditedCrop({ ...editedCrop, bestPractices: text })
           }

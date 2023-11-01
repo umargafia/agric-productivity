@@ -58,3 +58,13 @@ export const CreateCrop = async ({ data }) => {
 
   return response;
 };
+
+export const UpdateCrop = async ({ data, id }) => {
+  const response = await sendRequest({
+    url: `crop/update${id}`,
+    method: `PUT`,
+    data,
+  });
+
+  return response;
+};
