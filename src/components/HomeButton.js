@@ -19,12 +19,19 @@ export default function HomeButton({ crop }) {
       style={styles.button}
       onPress={() => navigation.navigate('Crop Info', { crop })}
     >
-      <ImageBackground source={{ uri: crop.url }} style={styles.image}>
+      <ImageBackground
+        source={{
+          uri: crop?.url
+            ? crop.url
+            : 'https://microbiotics.com.ng/wp-content/uploads/2020/11/Food-Improvisation-1.jpeg',
+        }}
+        style={styles?.image}
+      >
         <LinearGradient
           colors={['transparent', 'rgba(0,0,0,0.7)']}
           style={styles.gradient}
         >
-          <Text style={styles.text}>{crop.name}</Text>
+          <Text style={styles.text}>{crop?.name}</Text>
         </LinearGradient>
       </ImageBackground>
     </TouchableOpacity>

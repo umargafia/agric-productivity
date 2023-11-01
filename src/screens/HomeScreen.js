@@ -34,7 +34,7 @@ export default function HomeScreen() {
   async function getCrops() {
     setLoading(true);
     const response = await GetAllCrops();
-    setFilteredCrops(response);
+    setFilteredCrops(response.reverse());
     setLoading(false);
   }
 

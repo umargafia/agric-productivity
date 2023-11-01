@@ -48,3 +48,13 @@ export const GetAllCrops = async () => {
 
   return response;
 };
+
+export const CreateCrop = async ({ data }) => {
+  const response = await sendRequest({
+    url: `crop/create`,
+    method: `POST`,
+    data,
+  });
+
+  return response;
+};

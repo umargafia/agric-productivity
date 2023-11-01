@@ -10,11 +10,31 @@ import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { Theme } from '../constants/Theme';
 import MyButton from '../components/Mybutton';
+import { CreateCrop } from '../store/api';
 
 const theme = Theme();
 export default function AddScreen({ route }) {
   const navigation = useNavigation();
-  const saveChanges = () => {
+  const [loading, setLoading] = useState(false);
+  const [cropData, setCropData] = useState({
+    name: '',
+    url: '',
+    description: '',
+    plantingAndSowingGuidelines: '',
+    soilPreparation: '',
+    growingConditions: '',
+    wateringAndIrrigation: '',
+    fertilization: '',
+    pestAndDiseaseManagement: '',
+    harvesting: '',
+    marketing: '',
+    bestPractices: '',
+  });
+
+  const saveChanges = async () => {
+    setLoading(true);
+    await CreateCrop({ data: cropData });
+    setLoading(false);
     navigation.navigate('Tabs', { screen: 'Home' });
     Alert.alert('Crop Added Successfully');
   };
@@ -22,17 +42,90 @@ export default function AddScreen({ route }) {
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <MyInput label="Description" />
-        <MyInput label="Planting and Sowing Guidelines" />
-        <MyInput label="Soil Preparation" />
-        <MyInput label="Growing Conditions" />
-        <MyInput label="Watering and Irrigation" />
-        <MyInput label="Fertilization" />
-        <MyInput label="Pest and Disease Management" />
-        <MyInput label="Harvesting" />
-        <MyInput label="Marketing" />
-        <MyInput label="Best Practices" />
-        <MyButton text="Save Changes" onPress={saveChanges} />
+        <MyInput
+          label="Name"
+          normal
+          value={cropData.name}
+          onChangeText={(text) => setCropData({ ...cropData, name: text })}
+        />
+        <MyInput
+          label="Image URL"
+          normal
+          value={cropData.url}
+          onChangeText={(text) => setCropData({ ...cropData, url: text })}
+        />
+        <MyInput
+          label="Description"
+          value={cropData.description}
+          onChangeText={(text) =>
+            setCropData({ ...cropData, description: text })
+          }
+        />
+        <MyInput
+          label="Planting and Sowing Guidelines"
+          value={cropData.plantingAndSowingGuidelines}
+          onChangeText={(text) =>
+            setCropData({ ...cropData, plantingAndSowingGuidelines: text })
+          }
+        />
+        <MyInput
+          label="Soil Preparation"
+          value={cropData.soilPreparation}
+          onChangeText={(text) =>
+            setCropData({ ...cropData, soilPreparation: text })
+          }
+        />
+        <MyInput
+          label="Growing Conditions"
+          value={cropData.growingConditions}
+          onChangeText={(text) =>
+            setCropData({ ...cropData, growingConditions: text })
+          }
+        />
+        <MyInput
+          label="Watering and Irrigation"
+          value={cropData.wateringAndIrrigation}
+          onChangeText={(text) =>
+            setCropData({ ...cropData, wateringAndIrrigation: text })
+          }
+        />
+        <MyInput
+          label="Fertilization"
+          value={cropData.fertilization}
+          onChangeText={(text) =>
+            setCropData({ ...cropData, fertilization: text })
+          }
+        />
+        <MyInput
+          label="Pest and Disease Management"
+          value={cropData.pestAndDiseaseManagement}
+          onChangeText={(text) =>
+            setCropData({ ...cropData, pestAndDiseaseManagement: text })
+          }
+        />
+        <MyInput
+          label="Harvesting"
+          value={cropData.harvesting}
+          onChangeText={(text) =>
+            setCropData({ ...cropData, harvesting: text })
+          }
+        />
+        <MyInput
+          label="Marketing"
+          value={cropData.marketing}
+          onChangeText={(text) => setCropData({ ...cropData, marketing: text })}
+        />
+        <MyInput
+          label="Best Practices"
+          value={cropData.bestPractices}
+          onChangeText={(text) =>
+            setCropData({ ...cropData, bestPractices: text })
+          }
+        />
+        <MyButton
+          text={loading ? 'Loading...' : 'Create Crop'}
+          onPress={saveChanges}
+        />
         <MyButton
           text="Cancel"
           onPress={() => navigation.navigate('Tabs', { screen: 'Home' })}
@@ -41,6 +134,7 @@ export default function AddScreen({ route }) {
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -49,7 +143,8 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     fontWeight: 'bold',
-    marginBottom: 8,
+    marginBottom: 3,
+    marginTop: 10,
   },
   input: {
     height: 90,
@@ -61,17 +156,17 @@ const styles = StyleSheet.create({
   },
 });
 
-const MyInput = ({ label, value, onChangeText }) => {
+const MyInput = ({ label, value, onChangeText, normal }) => {
   return (
     <View>
       <Text style={styles.label}>{label}</Text>
       <TextInput
-        style={styles.input}
+        style={[styles.input, normal && { height: 50 }]}
         value={value}
         onChangeText={onChangeText}
         placeholder={`Enter ${label}`}
-        multiline
-        numberOfLines={3}
+        multiline={normal ? false : true}
+        numberOfLines={normal ? 1 : 3}
       />
     </View>
   );
