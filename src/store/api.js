@@ -40,3 +40,11 @@ export const SignUpUser = async ({ data }) => {
 
   return response;
 };
+
+export const GetAllCrops = async () => {
+  const response = await sendRequest({
+    url: `crop/all`,
+  });
+
+  return response;
+};

@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Text, StyleSheet, Animated, FlatList, TextInput } from 'react-native';
+import {
+  Text,
+  StyleSheet,
+  Animated,
+  FlatList,
+  TextInput,
+  ActivityIndicator,
+  RefreshControl,
+  View,
+} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Location from 'expo-location';
 
@@ -8,6 +17,7 @@ import { Theme } from '../constants/Theme';
 import cropsArray from '../constants/Crop';
 import Row from '../components/Row';
 import { getTemperature } from '../constants/getTempreature';
+import { GetAllCrops } from '../store/api';
 
 const theme = Theme();
 
@@ -16,11 +26,21 @@ export default function HomeScreen() {
   const [location, setLocation] = useState({ state: null, country: null });
   const [errorMsg, setErrorMsg] = useState(null);
   const [temperature, setTemperature] = useState(null);
+  const [filteredCrops, setFilteredCrops] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const [searchQuery, setSearchQuery] = useState('');
-  const filteredCrops = cropsArray.filter((crop) =>
-    crop.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+
+  async function getCrops() {
+    setLoading(true);
+    const response = await GetAllCrops();
+    setFilteredCrops(response);
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    getCrops();
+  }, [searchQuery]);
 
   useEffect(() => {
     (async () => {
@@ -73,21 +93,33 @@ export default function HomeScreen() {
         </Row>
       )}
 
-      <Animated.View
-        style={{
-          transform: [{ translateY: fadeAnim }],
-          flex: 1,
-          marginTop: 20,
-        }}
-      >
-        <FlatList
-          contentContainerStyle={styles.listContainer}
-          data={filteredCrops}
-          numColumns={2}
-          renderItem={({ item }) => <HomeButton crop={item} />}
-          keyExtractor={(item) => item.id.toString()}
-        />
-      </Animated.View>
+      {loading ? (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color={theme.palette.white} />
+        </View>
+      ) : (
+        <View
+          style={{
+            flex: 1,
+            marginTop: 10,
+          }}
+        >
+          <FlatList
+            contentContainerStyle={styles.listContainer}
+            data={filteredCrops}
+            numColumns={2}
+            renderItem={({ item }) => <HomeButton crop={item} />}
+            keyExtractor={(item) => item._id}
+            refreshControl={
+              <RefreshControl
+                refreshing={loading}
+                onRefresh={getCrops}
+                tintColor="white"
+              />
+            }
+          />
+        </View>
+      )}
     </LinearGradient>
   );
 }
@@ -117,5 +149,9 @@ const styles = StyleSheet.create({
   listContainer: {},
   row: {
     justifyContent: 'space-between',
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
   },
 });
