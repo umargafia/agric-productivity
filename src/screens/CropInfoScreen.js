@@ -46,58 +46,65 @@ export default function CropInfoScreen({ route }) {
     >
       <ScrollView style={styles.container}>
         <StatusBar style="dark" />
-        <Image source={{ uri: crop.url }} style={styles.image} />
+        <Image
+          source={{
+            uri: crop.url
+              ? crop.url
+              : 'https://microbiotics.com.ng/wp-content/uploads/2020/11/Food-Improvisation-1.jpeg',
+          }}
+          style={styles.image}
+        />
 
         {/* <Title text={crop?.name} header color={theme.palette.white} /> */}
         <ListItem
           CropsList={CropsList}
           header="Description"
-          text={CropsList[itemNumber]?.description}
+          text={crop?.description}
         />
         <ListItem
           CropsList={CropsList}
           header="Planting and Sowing Guidelines"
-          text={CropsList[itemNumber].plantingAndSowingGuidelines}
+          text={crop?.plantingAndSowingGuidelines}
         />
         <ListItem
           CropsList={CropsList}
           header="Soil Preparation"
-          text={CropsList[itemNumber].soilPreparation}
+          text={crop?.soilPreparation}
         />
         <ListItem
           CropsList={CropsList}
           header="Growing Conditions"
-          text={CropsList[itemNumber].growingConditions}
+          text={crop?.growingConditions}
         />
         <ListItem
           CropsList={CropsList}
           header="Watering and Irrigation:"
-          text={CropsList[itemNumber].wateringAndIrrigation}
+          text={crop?.wateringAndIrrigation}
         />
         <ListItem
           CropsList={CropsList}
           header="Fertilization"
-          text={CropsList[itemNumber].fertilization}
+          text={crop?.fertilization}
         />
         <ListItem
           CropsList={CropsList}
           header="Pest and Disease Management"
-          text={CropsList[itemNumber].pestAndDiseaseManagement}
+          text={crop?.pestAndDiseaseManagement}
         />
         <ListItem
           CropsList={CropsList}
           header="Harvesting"
-          text={CropsList[itemNumber].harvesting}
+          text={crop?.harvesting}
         />
         <ListItem
           CropsList={CropsList}
           header="Market Prices"
-          text={CropsList[itemNumber].marketing}
+          text={crop?.marketing}
         />
         <ListItem
           CropsList={CropsList}
           header="Best Practices"
-          text={CropsList[itemNumber].bestPractices}
+          text={crop?.bestPractices}
         />
       </ScrollView>
     </LinearGradient>
