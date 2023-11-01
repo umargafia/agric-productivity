@@ -11,28 +11,13 @@ import MyInput from '../components/MyInput';
 import MyButton from '../components/Mybutton';
 import Title from '../components/Title';
 import { loginUser } from '../store/globalState';
-
-const users = [
-  {
-    name: 'Test User',
-    email: 'test@gmail.com',
-    password: '123456',
-    id: 1,
-    role: 'user',
-  },
-  {
-    name: 'Admin User',
-    email: 'admin@gmail.com',
-    password: '123456',
-    id: 2,
-    role: 'admin',
-  },
-];
+import { LoginUser, SignUpUser } from '../store/api';
 
 const theme = Theme();
 export default function Auth() {
   const [isLogin, setLogin] = useState(true);
   const navigation = useNavigation();
+  const [loading, setLoading] = useState(false);
   const [loginData, setLoginData] = useState({ email: '', password: '' });
   const [signData, setSignData] = useState({
     email: '',
@@ -46,11 +31,6 @@ export default function Auth() {
   }
 
   const handleSubmit = async () => {
-    const response = await axios.get('http://192.168.43.234:3000/users');
-    console.log(response.data);
-
-    return;
-
     if (isLogin) {
       // Login logic
       if (!loginData.email || !loginData.password) {
@@ -58,17 +38,19 @@ export default function Auth() {
         return;
       }
 
-      const user = users.find(
-        (u) => u.email === loginData.email && u.password === loginData.password
-      );
-      if (user) {
+      setLoading(true);
+      const response = await LoginUser({
+        data: { email: loginData.email, password: loginData.password },
+      });
+      if (response.status === 'success') {
         setLoginData({ email: '', password: '' });
-        dispatch(loginUser(user));
+        dispatch(loginUser(response.data));
         navigation.replace('Tabs', { screen: 'Home' });
       } else {
         // Display an error message for incorrect credentials.
-        Alert.alert('Login Failed', 'Invalid email or password.');
+        Alert.alert('Login Failed', response.message);
       }
+      setLoading(false);
     } else {
       // Signup logic
       if (!signData.name || !signData.email || !signData.password) {
@@ -76,22 +58,25 @@ export default function Auth() {
         return;
       }
 
-      const emailExists = users.some((u) => u.email === signData.email);
-      if (emailExists) {
-        Alert.alert('Signup Failed', 'Email already in use.');
-      } else {
-        const newUser = {
-          name: signData.name,
-          email: signData.email,
-          password: signData.password,
-          id: users.length + 1, // Generate a unique ID for the new user.
-          role: 'user', // Set the default role for new users.
-        };
-        users.push(newUser);
-        setSignData({ email: '', password: '', name: '' });
-        dispatch(loginUser(newUser));
+      const data = {
+        name: signData.name,
+        email: signData.email,
+        password: signData.password,
+      };
+      setLoading(true);
+      const response = await SignUpUser({
+        data,
+      });
+      console.log(response);
+
+      if (response.status === 'success') {
+        setLoginData({ email: '', password: '' });
+        dispatch(loginUser(response.data));
         navigation.replace('Tabs', { screen: 'Home' });
+      } else {
+        Alert.alert('Login Failed', response.message);
       }
+      setLoading(false);
     }
   };
 
@@ -120,7 +105,10 @@ export default function Auth() {
                 setLoginData({ ...loginData, password: text })
               }
             />
-            <MyButton text="Login" onPress={handleSubmit} />
+            <MyButton
+              text={loading ? 'Loading...' : 'Login'}
+              onPress={handleSubmit}
+            />
             <TouchableOpacity onPress={toggleSwitch}>
               <Title text="Don't have an account? Signup" link />
             </TouchableOpacity>
@@ -145,7 +133,10 @@ export default function Auth() {
                 setSignData({ ...signData, password: text })
               }
             />
-            <MyButton text="Signup" onPress={handleSubmit} />
+            <MyButton
+              text={loading ? 'Loading...' : 'Signup'}
+              onPress={handleSubmit}
+            />
             <TouchableOpacity onPress={toggleSwitch}>
               <Title text="Already have an account? Login" link />
             </TouchableOpacity>
