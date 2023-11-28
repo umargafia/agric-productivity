@@ -69,16 +69,12 @@ Maize is the leading cereal grown in Nigeria, closely followed by sorghum and ri
   },
   {
     id: 3,
-    description: `Rice farming is the cultivation of maize or corn from the seed stage to the marketing of the harvested maize or corn. Maize farming is unarguably the most popular type of crop cultivation or farming in Nigeria. You can find maize farmers in Lagos, Ogun, Osun, Oyo, Edo, Delta, Rivers, Abuja, Plateau, Nasarawa, Imo, Anambra. Kano, Kebbi, Kaduna and all states in the country.
+    description: `Rice farming is one of the most lucrative types of farming in Nigeria, although rice is classified as a cash crop for farmers, it is one of the most consumed staple foods and important cereal in Nigeria. Almost 7 million tonnes of rice are consumed per year in the country.
 
-Maize is a staple food in Nigeria and hugely consumed by Nigerians. Most Nigerians will consume maize or its derivatives at least once every day.
+In July 2015, when the Federal Government of Nigeria announced plans to place a ban on the importation of rice into the country, Nigeria’s local rice production started experiencing growth and demand for locally produced rice also increased. The ban placed on the importation of rice caused the price of foreign rice to soar, turning the attention of Nigerians to locally produced rice. Creating an opportunity for interested individuals, farmers, organisations and even some state governments to go into rice production.
 
-About 800 million tons of maize was produced globally in the year 2019, with Nigeria producing about 11,000 tons. Nigeria is the largest producer of maize in Africa. In spite of the huge production of maize in Nigeria, Nigeria cannot satisfy local demand of maize.
+Rice mills like Abakali rice, Lake (Lagos and Kebbi State) rice, Anambra rice, Labana rice, as well as the production of Babban Gona’s rice and many others are among the producers of rice in Nigeria. There are more opportunities in the rice farming sector for intending rice farmers.`,
 
-The overall goal of the Value Chain is to increase maize production from 15.5 million mt in 2020 to 20 million mt by 2023. The policy objective is to increase maize production and enhance trade opportunities, meet food and nutritional security, increase employment, income generation for poverty reduction and promote foreign exchange earnings in the country.
-
-Maize is the leading cereal grown in Nigeria, closely followed by sorghum and rice. The grain crop serves as a key input in many manufacturing companies and the poultry industry.
-`,
     cropId: 'rice',
     varieties: ['Jasmine Rice', 'Basmati Rice', 'Short-Grain Rice'],
     plantingAndSowingGuidelines:

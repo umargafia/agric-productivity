@@ -2,7 +2,6 @@ export const getTemperature = async ({ lat, lon }) => {
   const ApiKey = '51008b613c50e28769619182d096dc71';
   const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${ApiKey}&units=metric`;
 
-  console.log(url);
   try {
     const response = await fetch(url);
 
